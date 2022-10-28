@@ -1,0 +1,276 @@
+swagger: "2.0"
+info:
+  title: Sample API
+  description: API description in Markdown.
+  version: 1.0.0
+host: example.com
+schemes:
+  - https
+paths:
+  /api/login:
+    post:
+      summary: Login
+      tags:
+        - Authentication
+      description: |
+        Login to the API.
+      parameters:
+        - email: email
+          in: formData
+          description: Email address
+          required: true
+          name: email
+          type: string
+        - password: password
+          in: formData
+          description: Password
+          required: true
+          name: password
+          type: string
+
+      responses:
+        200:
+          description: Login successful
+          schema:
+          $ref: '#/definitions/Token'
+        401:
+          description: Login failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/logout:
+    post:
+      summary: Logout
+      tags:
+        - Authentication
+      description: |
+        Logout from the API.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+      responses:
+        200:
+          description: Logout successful
+          schema:
+          $ref: '#/definitions/Success'
+        401:
+          description: Logout failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/resresh:
+    post:
+      summary: Refresh
+      tags:
+        - Authentication
+      description: |
+        Refresh the authentication token.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+      responses:
+        200:
+          description: Refresh successful
+          schema:
+          $ref: '#/definitions/Token'
+        401:
+          description: Refresh failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/cars:
+    get:
+      summary: Get all cars
+      tags:
+        - Cars
+      description: |
+        Get all cars.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+      responses:
+        200:
+          description: Get all cars successful
+          schema:
+          $ref: '#/definitions/Cars'
+        401:
+          description: Get all cars failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/cars/available:
+    get:
+      summary: Get all available cars
+      tags:
+        - Cars
+      description: |
+        Get all available cars.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+      responses:
+        200:
+          description: Get all available cars successful
+          schema:
+          $ref: '#/definitions/Cars'
+        401:
+          description: Get all available cars failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/cars/user:
+    get:
+      summary: Get all cars of the user
+      tags:
+        - Cars
+      description: |
+        Get all cars of the user.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+      responses:
+        200:
+          description: Get all cars of the user successful
+          schema:
+          $ref: '#/definitions/Cars'
+        401:
+          description: Get all cars of the user failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/cars/rent/{id}:
+    post:
+      summary: Rent a car
+      tags:
+        - Cars
+      description: |
+        Rent a car.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+        - id: id
+          in: path
+          description: Car ID
+          required: true
+          name: id
+          type: integer
+      responses:
+        200:
+          description: Rent a car successful
+          schema:
+          $ref: '#/definitions/Success'
+        401:
+          description: Rent a car failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/cars/return:
+    post:
+      summary: Return a car
+      tags:
+        - Cars
+      description: |
+        Return a car.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+        - id: id
+          in: path
+          description: Car ID
+          required: true
+          name: id
+          type: integer
+      responses:
+        200:
+          description: Return a car successful
+          schema:
+          $ref: '#/definitions/Success'
+        401:
+          description: Return a car failed
+          schema:
+          $ref: '#/definitions/Error'
+  /api/cars/history:
+    get:
+      summary: Get all cars of the user
+      tags:
+        - Cars
+      description: |
+        Get all cars of the user.
+      parameters:
+        - token: token
+          in: formData
+          description: Authentication token
+          required: true
+          name: token
+          type: string
+      responses:
+        200:
+          description: Get all cars of the user successful
+          schema:
+          $ref: '#/definitions/Cars'
+        401:
+          description: Get all cars of the user failed
+          schema:
+          $ref: '#/definitions/Error'
+definitions:
+  Token:
+    type: object
+    properties:
+      token:
+        type: string
+        description: Authentication token
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Error message
+  Success:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Success message
+  Cars:
+    type: object
+    properties:
+      cars:
+      type: array
+      items:
+        $ref: '#/definitions/Car'
+  Car:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Car ID
+      name:
+        type: string
+        description: Car name
+      color:
+        type: string
+        description: Car color
+      type:
+        type: string
+        description: Car type
